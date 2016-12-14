@@ -1,4 +1,4 @@
-#! /app/bin/node 
+#! /app/.heroku/node/bin/node
 var request = require("request");
 var querystring = require('querystring'); 
 var cheerio = require("cheerio");
