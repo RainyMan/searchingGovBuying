@@ -1,0 +1,86 @@
+var request = require("request");
+var querystring = require('querystring'); 
+var cheerio = require("cheerio");
+var fs = require("fs");
+const LineBot = require('@3846masa/linebot/lib/LineBot').LineBot;
+const TextMessage = require('@3846masa/linebot/lib/LineMessages').TextMessage;
+
+const bot = new LineBot({
+  channelSecret: '119925bcb705cd8dba97d12dee6adcfe',
+  channelToken: 'szRm+qYMp2AGfYM7moTZ0KajszBAq2Bi/tBFpBfIh1l4fL+W/YZOCbD1oCnxSdsuBfFyJAZwwQoFNWnXsZS934axxx1ZPxsJ8Oay98c0fDnVMV92MuXvHRKRvwDVT6DbTFAurOFXGvjZiwzCWHvqSwdB04t89/1O/w1cDnyilFU=',
+});
+
+var areas = ['1','2','20000200','20000201','50003000','50003001','7','8','9','10','11'];
+var areasChinese = ['基隆市','臺北市','新北市','新北市烏來區','桃園市','桃園市復興區','新竹市','新竹縣','新竹縣關西鎮','新竹縣五峰鄉','新竹縣尖石鄉'];
+var keywords = ['路面','道路','柏油','瀝青','刨除','停車','農路','AC','加封','鋪面','舖面'];
+			  
+function searchCase(num) {
+
+if (fs.existsSync("result.txt")) {
+    fs.unlink("result.txt");
+}
+
+var allStr = '';
+
+var form = {
+method:'search',
+searchMethod:'true',
+searchTarget:'TPAM',
+tenderName:keywords[(num%keywords.length)],
+//isSpdt:'Y', //期間
+location:areas[Math.floor(num/keywords.length)],
+};
+
+var formData = querystring.stringify(form);
+
+    request( {
+url: "https://web.pcc.gov.tw/tps/pss/tender.do?searchMode=common&searchType=advance",
+headers: {'content-type' : 'application/x-www-form-urlencoded'},
+body: formData,
+method: "POST"
+    }, function(error, response, body) {
+        if (error || !body) {
+            return;
+        }
+        // 爬完網頁後要做的事情
+		
+		
+		var $ = cheerio.load(body);
+		
+		var cases = $("#print_area tr");
+		var infoCount = $("span.T11b");
+		
+		if(infoCount.text() > 0){
+		
+        for (var i = 1; i <= infoCount.text(); i++) {
+        /*console.log(cases.eq(i).find("td").eq(1).text());
+		console.log(cases.eq(i).find("td").eq(2).find("u").text());
+		console.log(cases.eq(i).find("td").eq(6).text().trim());
+		console.log(cases.eq(i).find("td").eq(7).text().trim());
+		console.log(cases.eq(i).find("td").eq(8).text().trim() + '\n');*/
+		allStr += cases.eq(i).find("td").eq(1).text().trim() + '\n\n';
+		allStr += cases.eq(i).find("td").eq(2).find("u").text().trim() + '\n\n';
+		allStr += '公告:' + cases.eq(i).find("td").eq(6).text().trim() + '\n';
+		allStr += '截止:' + cases.eq(i).find("td").eq(7).text().trim()+ '\n';
+		allStr += '預算:' + cases.eq(i).find("td").eq(8).text().trim() + '\n\n';
+		allStr += '==========================\n\n';
+		}
+		
+		console.log('共有'+ (cases.length - 2)  +'筆資料')
+		allStr += '關鍵字:' + keywords[num%keywords.length] + ' 地區:' + areasChinese[Math.floor(num/keywords.length)] + ' ,共有' + infoCount.text()  + '筆資料' + '\n\n'; 
+		console.log(allStr);
+		
+		const message = new TextMessage({
+			text: allStr,
+		});
+		bot.push('U82bea0bcb7adb69108a9bc2a95ae6d42', message); //我
+		bot.push('Uefe53beb16bffe0519a5798dda943aa8', message); //媽
+		fs.appendFile("result.txt", allStr);
+		}
+    });
+	if(num+1 < areas.length*keywords.length)
+	searchCase(num+1);
+}
+
+searchCase(0);
+
