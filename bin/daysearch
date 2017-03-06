@@ -88,7 +88,7 @@ request({
             var reapeat2 = true;
 
             for (var y = 0; y < al; y++) {
-                if (GovNames.eq(i).text().search(areasChinese[y]) >= 0)
+                if (GovNames.eq(i).text().search(areasChinese[y]) >= 0 || CaseNames.eq(i).text().search(areasChinese[y]) >= 0)
                     reapeat2 = false;
             }
             for (var x = 0; x < kl; x++)
@@ -100,9 +100,11 @@ request({
 
                     allStr += CaseNames.eq(i).text() + '\n\n';
 
-                    allStr += '截止: ' + DateLines.eq(i).text() + '\n\n';
+                    allStr += '截止：' + DateLines.eq(i).text() + '\n\n';
 
-                    allStr += '網址: ' + shortUrl;
+                    allStr += '網址：' + shortUrl + '\n\n';
+
+                    allStr += '關鍵字：' + keywords[x];
 
                     console.log(allStr);
                     const message = new TextMessage({
@@ -110,6 +112,7 @@ request({
                     });
                     bot.push('U82bea0bcb7adb69108a9bc2a95ae6d42', message); //我
                     bot.push('Uefe53beb16bffe0519a5798dda943aa8', message); //媽
+                    bot.push('U87a28584b8d0f7c235a9eb304165a7e2', message); //秋亭
                     fs.appendFile("result.txt", allStr);
                 }
 
