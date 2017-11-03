@@ -1,3 +1,4 @@
+#! /app/.heroku/node/bin/node
 var request = require("request");
 var querystring = require('querystring'); 
 var cheerio = require("cheerio");
@@ -75,7 +76,7 @@ method: "POST"
 		});
 		bot.push('U82bea0bcb7adb69108a9bc2a95ae6d42', message); //我
 		bot.push('Uefe53beb16bffe0519a5798dda943aa8', message); //媽
-		fs.appendFile("result.txt", allStr);
+		//fs.appendFile("result.txt", allStr);
 		}
     });
 	if(num+1 < areas.length*keywords.length)
