@@ -18,7 +18,7 @@ const Form = {
     //tenderName:keywords[0],
     isSpdt: 'Y', //期間
     pageIndex: '1',
-    location: areas[4],
+    location: areas[2],
 };
 
 const options = {
@@ -41,8 +41,8 @@ var DataSchema = new Schema({
 
 });
 
-var Taoyuan = mongoose.model("Taoyuan", DataSchema);
-Taoyuan.collection.drop();
+var NewTaipei = mongoose.model("NewTaipei", DataSchema);
+NewTaipei.collection.drop();
 var index = 1;
 
 
@@ -57,7 +57,7 @@ function readGOVdata(repos, searchkeyword, index) {
     if (index == pages) {
         for (var i = 1; i <= (infoCount.text() % 100); i++) {
 
-            var obj = new Taoyuan({
+            var obj = new NewTaipei({
                 id: ((index - 1) * 100 + i),
                 district: cases.eq(i).find("td").eq(1).text().trim(),
                 name: cases.eq(i).find("td").eq(2).find("u").text().trim(),
@@ -87,7 +87,7 @@ function readGOVdata(repos, searchkeyword, index) {
             //allStr += '預算: ' + cases.eq(i).find("td").eq(8).text().trim() + '\n\n';
             //allStr += '網址: http://web.pcc.gov.tw/tps' + ($("#print_area tr").eq(i).find("td br+ a").attr('href')).slice(2) + '\n\n';
             //allStr += '===== [' + i + ']\n\n';
-            var obj = new Taoyuan({
+            var obj = new NewTaipei({
                 id: ((index - 1) * 100 + i),
                 district: cases.eq(i).find("td").eq(1).text().trim(),
                 name: cases.eq(i).find("td").eq(2).find("u").text().trim(),
