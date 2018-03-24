@@ -1,4 +1,4 @@
-#! /node/bin/node
+#! /app/.heroku/node/bin/node
 const linebot = require('linebot');
 const express = require('express');
 const rp = require('request-promise');
