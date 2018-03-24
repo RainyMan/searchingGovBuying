@@ -72,8 +72,8 @@ function readGOVdata(repos, searchkeyword, index) {
                     console.error(error);
                 }
             });
-            /*if(i == (infoCount.text()%100))
-            {mongoose.connection.close();}*/
+            if(i == (infoCount.text()%100))
+            {setTimeout(shout,10000);}
         }
     }
 
@@ -117,6 +117,9 @@ function readGOVdata(repos, searchkeyword, index) {
 
 }
 
+function shout(){
+    mongoose.connection.close();
+}
 
 options.body = querystring.stringify(Form);
 rp(options)
