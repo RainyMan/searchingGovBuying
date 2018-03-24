@@ -19,9 +19,9 @@ var DataSchema = new Schema({
 
 });
 
-var Wulai = mongoose.model("Wulai", DataSchema);
+var Guanxi = mongoose.model("Guanxi", DataSchema);
 
-Wulai.find({}).exec(function(err, result) {
+Guanxi.find({}).exec(function(err, result) {
     if (!err) {
         var allStr = '',
             count = 0,
@@ -52,7 +52,7 @@ Wulai.find({}).exec(function(err, result) {
                 }
             }
         }
-        allStr += '地區:' + areasChinese[3] + '\n' + '共有【' + count + '】筆資料';
+        allStr += '地區:' + areasChinese[8] + '\n' + '共有【' + count + '】筆資料';
         notify.push(allStr);
         //console.log(notify);
         bot.push('U82bea0bcb7adb69108a9bc2a95ae6d42', notify); //我

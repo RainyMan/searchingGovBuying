@@ -1,10 +1,9 @@
-#! /app/.heroku/node/bin/node
 const linebot = require('linebot');
 const mongoose = require('mongoose');
 
 const areas = ['1', '2', '20000200', '20000201', '50003000', '50003001', '7', '8', '9', '10', '11'];
 const areasChinese = ['基隆市', '臺北市', '新北市', '新北市烏來區', '桃園市', '桃園市復興區', '新竹市', '新竹縣', '新竹縣關西鎮', '新竹縣五峰鄉', '新竹縣尖石鄉'];
-const keywords = ['車道', '球場', '車場', '操場', '路口', '門口', '廣場', '路面', '道路', '柏油', '瀝青', '刨除', '停車', '農路', 'AC', '加封', '鋪面', '鋪設', '舖設', '舖面', '地坪', '面層', '整平'];
+const keywords = ['車道', '球場', '操場', '路口', '門口', '廣場', '路面', '道路', '柏油', '瀝青', '刨除', '停車', '農路', 'AC', '加封', '鋪面', '舖面', '地坪', '路面'];
 
 var Schema = mongoose.Schema;
 
@@ -19,9 +18,9 @@ var DataSchema = new Schema({
 
 });
 
-var Wulai = mongoose.model("Wulai", DataSchema);
+var Taipei = mongoose.model("Taipei", DataSchema);
 
-Wulai.find({}).exec(function(err, result) {
+Taipei.find({}).exec(function(err, result) {
     if (!err) {
         var allStr = '',
             count = 0,
@@ -46,17 +45,16 @@ Wulai.find({}).exec(function(err, result) {
                     allStr += '公告：' + ans.announcement + '\n';
                     allStr += '截止：' + ans.deadline + '\n';
                     allStr += '預算：' + ans.budget + '\n\n';
- 					//allStr += '網址：' + ans.site + '\n\n';
+ 					allStr += '網址：' + ans.site + '\n\n';
                     allStr += '===== [' + count + ']\n\n';
                     break;
                 }
             }
         }
-        allStr += '地區:' + areasChinese[3] + '\n' + '共有【' + count + '】筆資料';
+        allStr += '地區:' + areasChinese[1] + '\n' + '共有【' + count + '】筆資料';
         notify.push(allStr);
         //console.log(notify);
         bot.push('U82bea0bcb7adb69108a9bc2a95ae6d42', notify); //我
-        bot.push('Uefe53beb16bffe0519a5798dda943aa8', notify); //mother
         mongoose.connection.close();
     } else {
         // error handling
