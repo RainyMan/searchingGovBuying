@@ -124,13 +124,17 @@ function shout(){
 options.body = querystring.stringify(Form);
 rp(options)
     .then(function(repos) {
-        readGOVdata(repos, keywords[0], index);
-    })
-
-
-var db = mongoose.connection;
+		var db = mongoose.connection;
 mongoose.connect('mongodb://nick:nick@ds121999.mlab.com:21999/gov');
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function callback() {
     console.log("Database Connected.");
 });
+        readGOVdata(repos, keywords[0], index);
+    }).catch(function (err) {
+				shout();
+				console.log(err);
+        // Crawling failed or Cheerio choked...
+			});
+
+
