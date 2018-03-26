@@ -110,11 +110,6 @@ function readGOVdata(repos, searchkeyword, index) {
             .then(function(repos) {
                 readGOVdata(repos, keywords[0], index);
             })
-			.catch(function (err) {
-				shout();
-				console.log(err);
-        // Crawling failed or Cheerio choked...
-			});
         //console.log('共有'+ (cases.length - 2)  +'筆資料')
         //allStr += '關鍵字: ' + searchkeyword + '\n' + '地區: ' + '全省' + '\n' + '共有【' + infoCount.text() + '】筆資料' ; 
         //console.log(allStr);		
@@ -130,11 +125,7 @@ options.body = querystring.stringify(Form);
 rp(options)
     .then(function(repos) {
         readGOVdata(repos, keywords[0], index);
-    }).catch(function (err) {
-				shout();
-				console.log(err);
-        // Crawling failed or Cheerio choked...
-			});
+    })
 
 
 var db = mongoose.connection;
