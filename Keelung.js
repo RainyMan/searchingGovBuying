@@ -26,6 +26,7 @@ const options = {
     uri: "https://web.pcc.gov.tw/tps/pss/tender.do?searchMode=common&searchType=advance",
     body: querystring.stringify(Form),
     headers: { 'content-type': 'application/x-www-form-urlencoded' },
+	family: 4,//2018/03/28改正heroku錯誤
 };
 
 var Schema = mongoose.Schema;

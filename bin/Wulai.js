@@ -26,6 +26,7 @@ const options = {
     uri: "https://web.pcc.gov.tw/tps/pss/tender.do?searchMode=common&searchType=advance",
     body: querystring.stringify(Form),
     headers: { 'content-type': 'application/x-www-form-urlencoded' },
+	family: 4,//2018/03/28改正heroku錯誤
 };
 
 var Schema = mongoose.Schema;
@@ -110,6 +111,11 @@ function readGOVdata(repos, searchkeyword, index ) {
             .then(function(repos) {
                 readGOVdata(repos, keywords[0], index);
             })
+			.catch(function (err) {
+				shout();
+				console.log(err);
+        // Crawling failed or Cheerio choked...
+			});
         //console.log('共有'+ (cases.length - 2)  +'筆資料')
         //allStr += '關鍵字: ' + searchkeyword + '\n' + '地區: ' + '全省' + '\n' + '共有【' + infoCount.text() + '】筆資料' ; 
         //console.log(allStr);		
@@ -126,7 +132,11 @@ options.body = querystring.stringify(Form);
 rp(options)
     .then(function(repos) {
         readGOVdata(repos, keywords[0], index);
-    })
+    }).catch(function (err) {
+				shout();
+				console.log(err);
+        // Crawling failed or Cheerio choked...
+			});
 
 
 var db = mongoose.connection;
