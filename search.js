@@ -76,6 +76,7 @@ method: "POST"
 		});
 		bot.push('U82bea0bcb7adb69108a9bc2a95ae6d42', message); //我
 		bot.push('Uefe53beb16bffe0519a5798dda943aa8', message); //媽
+		bot.push('Ud3171b41eb800cb0a5105999b52edec0', message); //弟
 		//fs.appendFile("result.txt", allStr);
 		}
     });
