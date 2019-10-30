@@ -13,7 +13,7 @@
     "google-url": "0.0.4",
     "linebot": "^1.3.0",
     "mongodb": "",
-    "mongoose": "^5.0.11",
+    "mongoose": "^5.7.5",
     "querystring": "^0.2.0",
     "request": "^2.83.0",
     "request-promise": "^4.2.2",
